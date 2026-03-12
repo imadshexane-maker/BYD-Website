@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BYD فرۆشگا</title>
+<link id="gfont" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p:#E63327; --s:#c9a84c; --dark:#0a0a0a; --darker:#050505;
+  --mid:#141414; --light:#f0f0f0; --muted:#888;
+  --bg:#0a0a0a; --bg2:#141414; --bg3:#1e1e1e;
+  --text:#f0f0f0; --text2:rgba(240,240,240,0.65);
+  --border:#1e1e1e; --font:'Tajawal',sans-serif; --fs:16px;
+}
+body.light-mode{
+  --dark:#f5f5f5; --darker:#ebebeb; --mid:#ffffff; --bg:#f5f5f5;
+  --bg2:#ffffff; --bg3:#eeeeee; --text:#111111; --text2:rgba(0,0,0,0.6);
+  --border:#dddddd; --muted:#666;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:var(--font);font-size:var(--fs);background:var(--bg);color:var(--text);overflow-x:hidden;transition:background .3s,color .3s;}
+
+/* ===== LOADING ===== */
+#ls{position:fixed;inset:0;background:var(--darker);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .5s;}
+#ls.hide{opacity:0;pointer-events:none;}
+.ll{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:6px;color:white;}
+.ll span{color:var(--p);}
+.lb{width:200px;height:3px;background:#222;border-radius:10px;overflow:hidden;}
+.lf{height:100%;background:var(--p);border-radius:10px;animation:loadbar 1.5s ease forwards;}
+@keyframes loadbar{from{width:0}to{width:100%}}
+
+/* ===== FLAGS ===== */
+.flag-ku{display:inline-flex;align-items:center;justify-content:center;width:22px;height:15px;border-radius:2px;overflow:hidden;position:relative;flex-shrink:0;background:linear-gradient(to bottom,#ef2b2d 33.3%,#fff 33.3% 66.6%,#007a3d 66.6%);}
+.flag-ku::after{content:'✦';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:7px;color:#ef7d00;line-height:1;}
+
+/* ===== PW MODAL ===== */
+#pw-modal{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);z-index:99998;display:none;align-items:center;justify-content:center;}
+#pw-modal.show{display:flex;}
+.pw-box{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:40px;width:360px;text-align:center;}
+.pw-box h2{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;margin:12px 0 8px;}
+.pw-box p{font-size:14px;color:var(--muted);margin-bottom:22px;}
+.pw-inp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:var(--font);font-size:16px;padding:12px;outline:none;text-align:center;letter-spacing:3px;margin-bottom:12px;direction:ltr;transition:border-color .2s;}
+.pw-inp:focus{border-color:var(--p);}
+.pw-inp.wrong{border-color:var(--p);animation:shake .3s;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.pw-btn{width:100%;background:var(--p);color:#fff;border:none;padding:13px;border-radius:10px;font-family:var(--font);font-weight:700;font-size:16px;cursor:pointer;margin-bottom:10px;}
+.pw-cancel{background:transparent;border:none;color:var(--muted);font-family:var(--font);font-size:14px;cursor:pointer;}
+.pw-err{color:var(--p);font-size:13px;margin-top:6px;display:none;}
+
+/* ===== DETAIL MODAL ===== */
+#det-modal{position:fixed;inset:0;background:rgba(0,0,0,.92);backdrop-filter:blur(14px);z-index:88888;display:none;align-items:center;justify-content:center;padding:20px;}
+#det-modal.show{display:flex;}
+.det-box{background:var(--bg2);border:1px solid var(--border);border-radius:24px;width:100%;max-width:920px;max-height:90vh;overflow-y:auto;position:relative;}
+.det-close{position:sticky;top:16px;float:left;margin:16px;background:rgba(255,255,255,.1);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5;}
+.det-close:hover{background:var(--p);}
+.det-gall{position:relative;height:380px;background:var(--darker);border-radius:20px 20px 0 0;overflow:hidden;}
+.det-gall img{width:100%;height:100%;object-fit:contain;transition:opacity .3s;}
+.dgnav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.7);border:none;color:#fff;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:24px;display:flex;align-items:center;justify-content:center;z-index:3;}
+.dgnav:hover{background:var(--p);}
+.dgnav.prev{right:16px;}.dgnav.next{left:16px;}
+.det-thumbs{display:flex;gap:8px;padding:12px 18px;background:var(--darker);overflow-x:auto;}
+.det-thumb{width:68px;height:48px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid transparent;flex-shrink:0;opacity:.6;transition:all .2s;}
+.det-thumb.active{border-color:var(--p);opacity:1;}
+.ddots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:3;}
+.ddot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:all .2s;}
+.ddot.active{background:#fff;transform:scale(1.3);}
+.det-body{padding:26px;}
+.det-type{font-size:12px;color:var(--p);font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;}
+.det-name{font-family:'Bebas Neue',sans-serif;font-size:44px;letter-spacing:2px;margin-bottom:8px;}
+.det-short{font-size:15px;color:var(--text2);line-height:1.8;margin-bottom:12px;}
+.det-long{font-size:14px;color:var(--text2);line-height:1.9;margin-bottom:22px;padding:14px;background:var(--bg3);border-radius:12px;border:1px solid var(--border);}
+.det-specs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:22px;}
+.spec-c{background:var(--bg3);border-radius:12px;padding:13px;border:1px solid var(--border);}
+.spec-l{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
+.spec-v{font-size:16px;font-weight:700;color:var(--text);}
+.det-prow{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:var(--bg3);border-radius:14px;padding:18px;border:1px solid var(--border);}
+.det-price{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--s);}
+.det-cta{background:var(--p);color:#fff;border:none;padding:13px 28px;border-radius:50px;font-family:var(--font);font-weight:700;font-size:15px;cursor:pointer;transition:all .3s;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+.det-cta:hover{opacity:.9;}
+
+/* ===== ADMIN ===== */
+#adm-btn{position:fixed;bottom:24px;left:24px;z-index:10000;background:var(--p);color:#fff;border:none;padding:13px 20px;border-radius:50px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 8px 32px rgba(0,0,0,.4);transition:all .3s;display:flex;align-items:center;gap:8px;}
+#adm-btn:hover{transform:scale(1.05);}
+#adm{position:fixed;top:0;left:0;width:440px;height:100vh;background:var(--bg2);border-right:2px solid var(--p);z-index:9999;transform:translateX(-100%);transition:transform .4s cubic-bezier(.4,0,.2,1);overflow-y:auto;}
+#adm.open{transform:translateX(0);}
+.adm-hd{background:linear-gradient(to left,var(--s),var(--p));padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+.adm-hd h2{font-size:16px;font-weight:900;}
+.adm-logout{background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.3);color:#fff;padding:5px 10px;border-radius:20px;font-family:var(--font);font-size:12px;cursor:pointer;}
+.adm-x{background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:17px;cursor:pointer;}
+.adm-sec{padding:16px 20px;border-bottom:1px solid var(--border);}
+.adm-sec h3{color:var(--s);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+.adm-tabs{display:flex;gap:3px;margin-bottom:12px;background:var(--bg3);padding:3px;border-radius:10px;}
+.adm-tab{flex:1;background:transparent;border:none;color:var(--muted);padding:7px;border-radius:8px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;}
+.adm-tab.active{background:var(--p);color:#fff;}
+.af{margin-bottom:10px;}
+.af label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;font-weight:500;}
+.af input,.af textarea,.af select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--font);font-size:13px;padding:8px 10px;outline:none;transition:border-color .2s;}
+.af input:focus,.af textarea:focus,.af select:focus{border-color:var(--p);}
+.af textarea{height:64px;resize:vertical;}
+.af select option{background:var(--bg2);}
+.ce{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:13px;margin-bottom:9px;position:relative;}
+.ce-num{color:var(--p);font-weight:900;font-size:11px;letter-spacing:2px;margin-bottom:9px;}
+.ce-rm{position:absolute;top:10px;left:10px;background:rgba(230,51,39,.2);border:none;color:var(--p);width:24px;height:24px;border-radius:50%;font-size:14px;cursor:pointer;}
+.sv{background:var(--p);color:#fff;border:none;padding:12px 16px;border-radius:10px;font-family:var(--font);font-weight:700;font-size:14px;cursor:pointer;width:100%;transition:all .2s;margin-top:5px;}
+.sv:hover{opacity:.9;}
+.sv.gr{background:#1a6b3c;}
+.sv.bl{background:#1d4ed8;}
+.add-c{background:transparent;color:var(--s);border:1px dashed var(--s);padding:9px 13px;border-radius:8px;font-family:var(--font);font-weight:600;font-size:12px;cursor:pointer;width:100%;transition:all .2s;margin-top:4px;}
+.add-c:hover{background:rgba(201,168,76,.1);}
+.cs{width:30px;height:30px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .2s;flex-shrink:0;}
+.cs.sel{border-color:#fff;transform:scale(1.15);}
+.crow{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px;}
+#si{text-align:center;font-size:11px;color:#27ae60;margin-top:5px;opacity:0;transition:opacity .4s;}
+
+/* INVENTORY */
+.inv-wrap{overflow-x:auto;margin-top:10px;}
+.inv-t{width:100%;border-collapse:collapse;font-size:12px;}
+.inv-t th{background:var(--bg3);color:var(--s);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:8px 8px;text-align:right;border-bottom:1px solid var(--border);}
+.inv-t td{padding:7px 8px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle;}
+.inv-t input{background:transparent;border:none;color:var(--text);font-family:var(--font);font-size:12px;width:100%;outline:none;padding:2px 3px;border-bottom:1px solid transparent;}
+.inv-t input:focus{border-bottom-color:var(--p);}
+.cc{display:flex;align-items:center;gap:5px;}
+.cdot{width:16px;height:16px;border-radius:50%;border:2px solid #444;cursor:pointer;flex-shrink:0;}
+.ist{padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;border:none;font-family:var(--font);}
+.ist.available{background:rgba(39,174,96,.15);color:#27ae60;border:1px solid rgba(39,174,96,.3);}
+.ist.sold{background:rgba(230,51,39,.15);color:var(--p);border:1px solid rgba(230,51,39,.3);}
+.ist.reserved{background:rgba(201,168,76,.15);color:var(--s);border:1px solid rgba(201,168,76,.3);}
+.idel{background:rgba(230,51,39,.15);border:none;color:var(--p);width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:13px;}
+.isum{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px;}
+.isc{flex:1;min-width:55px;background:var(--bg3);border-radius:10px;padding:9px 7px;text-align:center;border:1px solid var(--border);}
+.isc-n{font-family:'Bebas Neue',sans-serif;font-size:24px;line-height:1;}
+.isc-l{font-size:9px;color:var(--muted);margin-top:2px;}
+.iadd{background:transparent;color:var(--s);border:1px dashed var(--s);padding:7px 12px;border-radius:8px;font-family:var(--font);font-weight:600;font-size:12px;cursor:pointer;width:100%;margin-top:9px;}
+
+/* TOAST */
+.toast{position:fixed;top:24px;right:80px;padding:12px 18px;border-radius:12px;font-weight:700;font-size:13px;z-index:99999;opacity:0;transform:translateY(-10px);transition:all .3s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.ok{background:#27ae60;color:#fff;}
+.toast.er{background:#e74c3c;color:#fff;}
+
+/* ===== WHATSAPP ===== */
+#wa-btn{position:fixed;bottom:24px;right:24px;z-index:10000;width:58px;height:58px;border-radius:50%;background:#25d366;border:none;cursor:pointer;box-shadow:0 8px 32px rgba(37,211,102,.5);display:flex;align-items:center;justify-content:center;animation:wabounce 2s ease-in-out infinite;}
+@keyframes wabounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.05)}70%{transform:translateY(-4px) scale(1.02)}}
+#wa-btn:hover{animation:none;transform:scale(1.1);}
+#wa-btn svg{width:30px;height:30px;fill:#fff;}
+
+/* ===== DARK/LIGHT TOGGLE ===== */
+#theme-btn{position:fixed;bottom:24px;right:96px;z-index:10000;width:44px;height:44px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;transition:all .3s;box-shadow:0 4px 16px rgba(0,0,0,.3);}
+#theme-btn:hover{transform:scale(1.1);}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 60px;height:80px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(5,5,5,.95),transparent);backdrop-filter:blur(10px);}
+body.light-mode nav{background:linear-gradient(to bottom,rgba(245,245,245,.98),transparent);}
+.nav-logo-wrap{display:flex;align-items:center;gap:10px;}
+.nav-logo-img{height:36px;object-fit:contain;display:none;}
+.nav-logo-img.show{display:block;}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--text);letter-spacing:4px;}
+.nav-logo span{color:var(--p);}
+.nav-links{display:flex;gap:24px;list-style:none;align-items:center;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-cta{background:var(--p);color:#fff;padding:9px 20px;border-radius:50px;font-weight:700;font-size:13px;cursor:pointer;border:none;font-family:var(--font);transition:all .2s;}
+.nav-cta:hover{transform:scale(1.05);}
+.lang-sw{display:flex;gap:3px;background:rgba(128,128,128,.12);border-radius:30px;padding:3px;}
+.lb2{background:transparent;border:none;color:var(--text2);padding:5px 9px;border-radius:24px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:4px;}
+.lb2.active{background:var(--p);color:#fff;}
+.lb2:hover:not(.active){color:var(--text);}
+
+/* MOBILE LANG BAR */
+#mlb{display:none;position:fixed;top:80px;left:0;right:0;z-index:999;background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 16px;justify-content:center;gap:8px;backdrop-filter:blur(10px);}
+
+/* ===== HERO ===== */
+.hero{height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;transition:background .5s;}
+.hero-bg-img{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.25;transition:opacity .5s;}
+.hero-overlay{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(230,51,39,0.18) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(201,168,76,0.1) 0%,transparent 50%);}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(128,128,128,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(128,128,128,.04) 1px,transparent 1px);background-size:60px 60px;}
+.hero-content{position:relative;z-index:2;padding:0 60px;max-width:700px;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(230,51,39,0.15);border:1px solid rgba(230,51,39,0.4);color:var(--p);padding:7px 15px;border-radius:50px;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:26px;}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,8vw,108px);line-height:.9;color:var(--text);margin-bottom:26px;letter-spacing:2px;}
+.hero-t2{color:var(--s);}
+.hero-sub{font-size:17px;color:var(--text2);font-weight:300;line-height:1.75;margin-bottom:40px;max-width:500px;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+.btn-p{background:var(--p);color:#fff;padding:15px 32px;border-radius:50px;font-weight:700;font-size:15px;border:none;cursor:pointer;font-family:var(--font);transition:all .3s;box-shadow:0 8px 28px rgba(0,0,0,.3);}
+.btn-p:hover{transform:translateY(-2px);}
+.btn-o{background:transparent;color:var(--text);padding:15px 32px;border-radius:50px;font-weight:600;font-size:15px;border:1px solid rgba(128,128,128,.4);cursor:pointer;font-family:var(--font);transition:all .3s;}
+.btn-o:hover{border-color:var(--text);}
+.hero-car{position:absolute;left:0;top:50%;transform:translateY(-50%);width:55%;height:75%;object-fit:contain;opacity:.85;filter:drop-shadow(0 40px 80px rgba(0,0,0,.4));animation:float 6s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(-50%) translateX(0)}50%{transform:translateY(-52%) translateX(12px)}}
+.hero-stats{position:absolute;bottom:60px;right:60px;display:flex;gap:48px;z-index:2;}
+.stat-n{font-family:'Bebas Neue',sans-serif;font-size:46px;color:var(--text);line-height:1;}
+.stat-l{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
+
+/* DATE CLOCK */
+.hero-clock{position:absolute;top:100px;right:60px;z-index:3;text-align:center;background:rgba(0,0,0,.35);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px 20px;min-width:190px;}
+body.light-mode .hero-clock{background:rgba(255,255,255,.7);border-color:rgba(0,0,0,.1);}
+.clock-time{font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:3px;line-height:1;color:var(--text);}
+.clock-secs{font-size:22px;color:var(--p);}
+.clock-date{font-size:12px;color:var(--muted);margin-top:5px;letter-spacing:1px;}
+
+/* ===== SECTIONS ===== */
+section{padding:96px 60px;}
+.sl{color:var(--p);font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:12px;}
+.sl::after{content:'';display:inline-block;width:40px;height:2px;background:linear-gradient(to left,var(--s),var(--p));}
+.st{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,5vw,62px);color:var(--text);line-height:1;margin-bottom:14px;letter-spacing:2px;}
+
+/* CARS */
+#cars-sec{background:var(--darker);}
+body.light-mode #cars-sec{background:var(--bg3);}
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:22px;margin-top:56px;}
+.cc2{background:var(--bg2);border-radius:20px;overflow:hidden;border:1px solid var(--border);transition:all .4s;cursor:pointer;}
+.cc2:hover{transform:translateY(-8px);border-color:var(--p);box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.cg-wrap{position:relative;height:215px;background:linear-gradient(135deg,var(--bg3),var(--bg2));overflow:hidden;}
+.cg-wrap img{width:100%;height:100%;object-fit:contain;}
+.gnav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.6);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;z-index:2;}
+.cc2:hover .gnav{opacity:1;}
+.gnav.p{right:8px;}.gnav.n{left:8px;}
+.gdots{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:2;}
+.gdot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;}
+.gdot.a{background:#fff;}
+.cbadge{position:absolute;top:12px;right:12px;background:var(--p);color:#fff;padding:3px 10px;border-radius:50px;font-size:10px;font-weight:700;letter-spacing:1px;z-index:2;}
+.ci{padding:20px;}
+.ctlbl{font-size:10px;color:var(--p);font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:7px;}
+.cname{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--text);letter-spacing:2px;margin-bottom:7px;}
+.cdesc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:16px;}
+.cprow{display:flex;align-items:center;justify-content:space-between;}
+.cprice{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--s);letter-spacing:1px;}
+.cpl{font-size:10px;color:var(--muted);}
+.cbtns{display:flex;gap:7px;}
+.cmore{background:transparent;color:var(--text2);border:1px solid var(--border);padding:8px 13px;border-radius:50px;font-family:var(--font);font-weight:600;font-size:12px;cursor:pointer;transition:all .2s;}
+.cmore:hover{border-color:var(--text);color:var(--text);}
+.cask{background:var(--p);color:#fff;border:none;padding:8px 16px;border-radius:50px;font-family:var(--font);font-weight:700;font-size:12px;cursor:pointer;}
+
+/* ABOUT */
+#abt-sec{background:var(--dark);display:flex;gap:76px;align-items:center;}
+body.light-mode #abt-sec{background:var(--bg);}
+.abt-t{flex:1;}
+.abt-f{flex:1;}
+.abt-body{font-size:15px;color:var(--text2);line-height:1.9;margin-top:18px;margin-bottom:36px;}
+.fi{display:flex;gap:18px;margin-bottom:16px;padding:15px;background:var(--bg2);border-radius:14px;border:1px solid var(--border);transition:border-color .3s;}
+.fi:hover{border-color:rgba(230,51,39,0.5);}
+.fic{width:44px;height:44px;min-width:44px;background:rgba(230,51,39,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:19px;}
+.fit h4{font-weight:700;font-size:14px;margin-bottom:3px;color:var(--text);}
+.fit p{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* CONTACT */
+#ct-sec{background:var(--darker);text-align:center;}
+body.light-mode #ct-sec{background:var(--bg3);}
+.ctg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px;max-width:960px;margin:52px auto 0;}
+.ctc{background:var(--bg2);border-radius:20px;padding:28px 20px;border:1px solid var(--border);transition:all .3s;text-decoration:none;display:block;cursor:pointer;}
+.ctc:hover{border-color:var(--p);transform:translateY(-4px);}
+.cticon{font-size:32px;margin-bottom:12px;display:block;}
+.ctlb{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:7px;}
+.ctv{font-size:16px;font-weight:700;color:var(--text);direction:ltr;}
+.hrs-box{margin-top:30px;padding:20px;background:var(--bg2);border-radius:16px;max-width:500px;margin-inline:auto;border:1px solid var(--border);}
+
+footer{background:var(--darker);border-top:1px solid var(--border);padding:32px 60px;display:flex;justify-content:space-between;align-items:center;}
+body.light-mode footer{background:var(--bg3);}
+.flogo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;display:flex;align-items:center;gap:10px;}
+.flogo span{color:var(--s);}
+.flogo img{height:28px;object-fit:contain;display:none;}
+.flogo img.show{display:block;}
+
+@media(max-width:768px){
+  nav{padding:0 14px;}
+  .nav-links{display:none;}
+  #mlb{display:flex !important;}
+  .hero-content{padding:0 22px;}
+  .hero-car{display:none;}
+  .hero-stats{right:22px;bottom:36px;gap:22px;}
+  .stat-n{font-size:34px;}
+  .hero-clock{right:22px;top:88px;padding:10px 14px;min-width:160px;}
+  .clock-time{font-size:28px;}
+  section{padding:56px 22px;}
+  #abt-sec{flex-direction:column;gap:36px;}
+  footer{flex-direction:column;gap:14px;text-align:center;padding:26px 22px;}
+  #adm{width:100%;}
+  .det-gall{height:240px;}
+  .ctg{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div id="ls"><div class="ll">BYD <span>|</span> فرۆشگا</div><div class="lb"><div class="lf"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<!-- PASSWORD -->
+<div id="pw-modal">
+  <div class="pw-box">
+    <div style="font-size:44px">🔐</div>
+    <h2 id="pw-h">پانێلی ئەدمین</h2>
+    <p id="pw-p">پاسووۆردەکەت بنووسە</p>
+    <input type="password" class="pw-inp" id="pw-inp" placeholder="••••••••" onkeydown="if(event.key==='Enter')chkPW()">
+    <div class="pw-err" id="pw-err"></div>
+    <button class="pw-btn" onclick="chkPW()" id="pw-b">🔓 داخڵ ببە</button>
+    <button class="pw-cancel" onclick="closePW()" id="pw-cx">پاشگەزبوونەوە</button>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div id="det-modal" onclick="if(event.target===this)closeDet()">
+  <div class="det-box">
+    <button class="det-close" onclick="closeDet()">✕</button>
+    <div class="det-gall">
+      <img id="dm-img" src="" alt="">
+      <button class="dgnav prev" onclick="dNav(1)">&#8249;</button>
+      <button class="dgnav next" onclick="dNav(-1)">&#8250;</button>
+      <div class="ddots" id="ddots"></div>
+    </div>
+    <div class="det-thumbs" id="dthumbs"></div>
+    <div class="det-body">
+      <div class="det-type" id="dt-type"></div>
+      <div class="det-name" id="dt-name"></div>
+      <div class="det-short" id="dt-short"></div>
+      <div class="det-long" id="dt-long" style="display:none"></div>
+      <div class="det-specs" id="dt-specs"></div>
+      <div class="det-prow">
+        <div><div style="font-size:11px;color:var(--muted);letter-spacing:2px;margin-bottom:3px" id="dt-plbl">نرخ</div><div class="det-price" id="dt-price"></div></div>
+        <button class="det-cta" id="dt-cta" onclick="document.getElementById('ct-sec').scrollIntoView({behavior:'smooth'});closeDet()"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN BUTTON -->
+<button id="adm-btn" onclick="reqAdm()">⚙️ ئەدمین</button>
+
+<!-- WHATSAPP -->
+<button id="wa-btn" onclick="openWA()" title="WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</button>
+
+<!-- THEME TOGGLE -->
+<button id="theme-btn" onclick="toggleTheme()" title="Dark/Light">🌙</button>
+
+<!-- ADMIN PANEL -->
+<div id="adm">
+  <div class="adm-hd">
+    <h2>⚙️ دەسکاریکردن</h2>
+    <div style="display:flex;align-items:center;gap:7px">
+      <button class="adm-logout" onclick="logout()">🚪 دەرچوون</button>
+      <button class="adm-x" onclick="toggleAdm()">✕</button>
+    </div>
+  </div>
+
+  <!-- ADMIN LANG -->
+  <div class="adm-sec">
+    <h3>🌐 زمانی دەسکاری</h3>
+    <div class="adm-tabs" id="alang-tabs">
+      <button class="adm-tab active" onclick="setAL('ku',this)">کوردی</button>
+      <button class="adm-tab" onclick="setAL('ar',this)">عربی</button>
+      <button class="adm-tab" onclick="setAL('en',this)">English</button>
+    </div>
+    <p style="font-size:11px;color:var(--muted);line-height:1.6">⚡ زانیاری هاوبەش (پەیوەندی، نرخ) خۆکار بۆ هەر ٣ زمان دەچێت</p>
+  </div>
+
+  <!-- DESIGN -->
+  <div class="adm-sec">
+    <h3>🎨 دیزاین</h3>
+    <!-- Color 1 -->
+    <div class="af">
+      <label style="display:flex;align-items:center;gap:6px"><div id="c1p" style="width:16px;height:16px;border-radius:50%;background:var(--p);border:2px solid #555;flex-shrink:0"></div>ڕەنگی یەکەم (دوگمەکان، هایلایت)</label>
+      <div style="font-size:9px;color:var(--muted);margin-bottom:5px;letter-spacing:1px">🔴 سووری — مات</div><div class="crow" id="c1a"></div>
+      <div style="font-size:9px;color:var(--muted);margin:6px 0 4px;letter-spacing:1px">🟠 گەرم</div><div class="crow" id="c1b"></div>
+      <div style="font-size:9px;color:var(--muted);margin:6px 0 4px;letter-spacing:1px">🔵 شین — مات</div><div class="crow" id="c1c"></div>
+      <div style="font-size:9px;color:var(--muted);margin:6px 0 4px;letter-spacing:1px">🟢 سەوز — تیری</div><div class="crow" id="c1d"></div>
+      <div style="font-size:9px;color:var(--muted);margin:6px 0 4px;letter-spacing:1px">⬛ کلاسیک — مات</div><div class="crow" id="c1e"></div>
+      <div style="display:flex;gap:7px;margin-top:7px;align-items:center">
+        <input type="color" id="cc1" value="#E63327" style="width:38px;height:32px;border-radius:8px;border:none;cursor:pointer;padding:2px;background:var(--bg3);">
+        <span style="font-size:11px;color:var(--muted)">ڕەنگی تایبەت</span>
+      </div>
+    </div>
+    <div style="height:1px;background:var(--border);margin:10px 0"></div>
+    <!-- Color 2 -->
+    <div class="af">
+      <label style="display:flex;align-items:center;gap:6px"><div id="c2p" style="width:16px;height:16px;border-radius:50%;background:var(--s);border:2px solid #555;flex-shrink:0"></div>ڕەنگی دووەم (نرخ، خەت، لۆگۆ)</label>
+      <div style="font-size:9px;color:var(--muted);margin-bottom:5px;letter-spacing:1px">🥇 زێڕ — سیلڤەر — مات</div><div class="crow" id="c2a"></div>
+      <div style="font-size:9px;color:var(--muted);margin:6px 0 4px;letter-spacing:1px">🔵 شین — فیرۆزەیی</div><div class="crow" id="c2b"></div>
+      <div style="font-size:9px;color:var(--muted);margin:6px 0 4px;letter-spacing:1px">🟢 سەوز — زەیتوون</div><div class="crow" id="c2c"></div>
+      <div style="display:flex;gap:7px;margin-top:7px;align-items:center">
+        <input type="color" id="cc2" value="#c9a84c" style="width:38px;height:32px;border-radius:8px;border:none;cursor:pointer;padding:2px;background:var(--bg3);">
+        <span style="font-size:11px;color:var(--muted)">ڕەنگی تایبەت</span>
+      </div>
+    </div>
+    <!-- PREVIEW -->
+    <div style="border-radius:10px;height:36px;background:linear-gradient(to left,var(--s),var(--p));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;letter-spacing:2px;margin:8px 0">پێشبینی ڕەنگ</div>
+    <!-- BG -->
+    <div style="height:1px;background:var(--border);margin:10px 0"></div>
+    <div class="af"><label>ڕەنگی باگراوند</label>
+      <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:7px" id="bg-swatches"></div>
+      <div style="display:flex;gap:7px;align-items:center">
+        <input type="color" id="cc-bg" value="#0a0a0a" style="width:38px;height:32px;border-radius:8px;border:none;cursor:pointer;padding:2px;background:var(--bg3);">
+        <span style="font-size:11px;color:var(--muted)">ڕەنگی تایبەت</span>
+      </div>
+    </div>
+    <div class="af"><label>وێنەی باگراوند (ئەگەر دەتەوێت)</label>
+      <label for="bg-file" style="background:var(--bg3);color:var(--text);border:1px solid var(--border);padding:8px 13px;border-radius:8px;cursor:pointer;font-size:12px;display:inline-flex;align-items:center;gap:6px">🖼️ وێنە هەڵبژێرە</label>
+      <input type="file" id="bg-file" accept="image/*" style="display:none" onchange="changeBgImg(this)">
+      <button onclick="clearBgImg()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 10px;border-radius:8px;font-size:11px;cursor:pointer;margin-top:5px;width:100%">✕ سڕینەوەی وێنە</button>
+    </div>
+    <!-- FONT -->
+    <div style="height:1px;background:var(--border);margin:10px 0"></div>
+    <div class="af"><label>فۆنت</label>
+      <select id="font-sel" onchange="applyFont(this.value)">
+        <option value="Tajawal">Tajawal — ئاسایی</option>
+        <option value="Cairo">Cairo — سووک</option>
+        <option value="Almarai">Almarai — کۆمپاکت</option>
+        <option value="Amiri">Amiri — کلاسیکی کوردی/عربی</option>
+        <option value="Scheherazade+New">Scheherazade — کالیگرافی</option>
+        <option value="Noto+Sans+Arabic">Noto Sans Arabic</option>
+        <option value="IBM+Plex+Sans+Arabic">IBM Plex Arabic</option>
+        <option value="Readex+Pro">Readex Pro</option>
+      </select>
+    </div>
+    <div class="af"><label>قەبارەی فۆنت</label>
+      <div style="display:flex;gap:5px">
+        <button onclick="applyFontSize('14px',this)" style="flex:1;padding:7px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;font-size:12px;font-family:var(--font)">بچووک</button>
+        <button onclick="applyFontSize('16px',this)" class="fs-active" style="flex:1;padding:7px;background:var(--p);border:1px solid var(--p);border-radius:8px;color:#fff;cursor:pointer;font-size:13px;font-family:var(--font)">ئاسایی</button>
+        <button onclick="applyFontSize('18px',this)" style="flex:1;padding:7px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;font-size:14px;font-family:var(--font)">گەورە</button>
+        <button onclick="applyFontSize('20px',this)" style="flex:1;padding:7px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;font-size:15px;font-family:var(--font)">زۆر گەورە</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGO -->
+  <div class="adm-sec">
+    <h3>🏷️ لۆگۆ</h3>
+    <div class="af">
+      <label for="logo-file" style="background:var(--p);color:#fff;padding:9px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px">📷 لۆگۆ هەڵبژێرە</label>
+      <input type="file" id="logo-file" accept="image/*" style="display:none" onchange="changeLogo(this)">
+      <div id="logo-preview"></div>
+      <button onclick="clearLogo()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:7px;border-radius:8px;font-size:11px;cursor:pointer;margin-top:5px;width:100%">✕ سڕینەوەی لۆگۆ (بگەڕێتەوە تێکست)</button>
+    </div>
+  </div>
+
+  <!-- HERO CAR IMAGE -->
+  <div class="adm-sec">
+    <h3>🚗 وێنەی سەیارەی سەرەکی (Hero)</h3>
+    <label for="hcf" style="background:var(--p);color:#fff;padding:9px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px">📷 وێنە هەڵبژێرە</label>
+    <input type="file" id="hcf" accept="image/*" style="display:none" onchange="changeHeroCar(this)">
+    <div id="hcp"></div>
+    <button onclick="clearHeroCar()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 10px;border-radius:8px;font-size:11px;cursor:pointer;margin-top:5px;width:100%;font-family:var(--font)">✕ سڕینەوەی وێنەی سەیارە (بگەڕێتەوە سەرەتا)</button>
+  </div>
+
+  <!-- HERO TEXT -->
+  <div class="adm-sec">
+    <h3>🏠 دەقی سەرەکی</h3>
+    <div id="hero-fields"></div>
+  </div>
+
+  <!-- CARS -->
+  <div class="adm-sec">
+    <h3>🚗 سەیارەکان</h3>
+    <div id="cars-list"></div>
+    <button class="add-c" id="add-car-btn" onclick="addCar()">+ زیادکردنی سەیارەی نوێ</button>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="adm-sec">
+    <h3>ℹ️ دەربارەمان</h3>
+    <div id="about-fields"></div>
+  </div>
+
+  <!-- CONTACT & LOCATION & WHATSAPP -->
+  <div class="adm-sec">
+    <h3>📞 پەیوەندی (هاوبەش بۆ ٣ زمان)</h3>
+    <div class="af"><label>ژمارەی تەلەفۆن</label><input id="ct-phone" oninput="scheduleSave()"></div>
+    <div class="af"><label>واتس ئاپ (ژمارە بە +964...)</label><input id="ct-wa" placeholder="+9647500000000" oninput="scheduleSave()"></div>
+    <div class="af"><label>ئیمەیڵ (کلیک بکرێ دەکەوێتە مەیڵ)</label><input id="ct-email" oninput="scheduleSave()"></div>
+    <div class="af"><label>ناونیشان</label><input id="ct-addr" oninput="scheduleSave()"></div>
+    <div class="af"><label>لینکی گووگڵ مەپ (کلیک بکرێ دەکەوێتە مەپ)</label><input id="ct-loc" placeholder="https://maps.google.com/..." oninput="scheduleSave()"></div>
+    <div class="af"><label>کاتی کار</label><input id="ct-hours" oninput="scheduleSave()"></div>
+    <div id="contact-lang-fields"></div>
+  </div>
+
+  <!-- SAVE -->
+  <div style="padding:16px 20px">
+    <button class="sv" onclick="applyAll()" id="sv-btn">💾 تۆمارکردنی هەموو گۆڕانکاریەکان</button>
+    <div id="si">✅ خۆکار تۆمارکرا</div>
+  </div>
+
+  <!-- BACKUP -->
+  <div class="adm-sec">
+    <h3>💾 پشتگیری داتا</h3>
+    <button class="sv gr" onclick="exportData()" style="margin-bottom:9px">⬇️ ئێکسپۆرت (Backup)</button>
+    <label style="display:flex;align-items:center;justify-content:center;gap:7px;background:transparent;color:var(--s);border:1px dashed var(--s);padding:10px;border-radius:10px;cursor:pointer;font-weight:700;font-size:13px">
+      ⬆️ ئیمپۆرت (Restore)
+      <input type="file" accept=".json" style="display:none" onchange="importData(this)">
+    </label>
+  </div>
+
+  <!-- INVENTORY -->
+  <div class="adm-sec">
+    <h3>📦 مەخزەن</h3>
+    <div class="isum" id="inv-sum"></div>
+    <div class="inv-wrap">
+      <table class="inv-t"><thead><tr>
+        <th id="ih-n">ناو</th><th id="ih-ch">شاسی</th><th id="ih-c">ڕەنگ</th><th id="ih-s">حاڵ</th><th></th>
+      </tr></thead><tbody id="inv-body"></tbody></table>
+    </div>
+    <button class="iadd" id="inv-add" onclick="addInv()">+ زیادکردن</button>
+    <button class="sv" onclick="saveInv()" style="margin-top:9px" id="inv-sv">💾 تۆمارکردنی مەخزەن</button>
+  </div>
+</div>
+
+<!-- WEBSITE -->
+<nav>
+  <div class="nav-logo-wrap">
+    <img class="nav-logo-img" id="nav-logo-img" src="" alt="logo">
+    <div class="nav-logo" id="nav-logo">BYD <span>|</span> فرۆشگا</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#cars-sec" id="nl-c">سەیارەکان</a></li>
+    <li><a href="#abt-sec" id="nl-a">دەربارەمان</a></li>
+    <li><a href="#ct-sec" id="nl-ct">پەیوەندی</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="lang-sw" id="nav-lsw">
+      <button class="lb2 active" onclick="setLang('ku',this)"><span class="flag-ku"></span>کو</button>
+      <button class="lb2" onclick="setLang('ar',this)">🇮🇶 ع</button>
+      <button class="lb2" onclick="setLang('en',this)">🇺🇸 EN</button>
+    </div>
+    <button class="nav-cta" id="nav-cta" onclick="document.getElementById('ct-sec').scrollIntoView({behavior:'smooth'})">پەیوەندی</button>
+  </div>
+</nav>
+
+<!-- MOBILE LANG BAR -->
+<div id="mlb">
+  <button class="lb2 active" onclick="setLang('ku',this)"><span class="flag-ku"></span> کوردی</button>
+  <button class="lb2" onclick="setLang('ar',this)">🇮🇶 عربی</button>
+  <button class="lb2" onclick="setLang('en',this)">🇺🇸 English</button>
+</div>
+
+<section class="hero">
+  <div class="hero-bg" id="hero-bg" style="background:var(--bg)"></div>
+  <div class="hero-bg-img" id="hero-bg-img"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-grid"></div>
+  <img class="hero-car" id="hero-car-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/BYD_Seal_003_in_white.jpg/1280px-BYD_Seal_003_in_white.jpg" alt="BYD" onerror="this.style.opacity='0'">
+  <div class="hero-content">
+    <div class="hero-badge">🔴 <span id="h-badge">فرۆشگای فەرمی BYD</span></div>
+    <h1 class="hero-title"><span id="h-t1">ئۆتۆمبێلی</span><br><span id="h-t2" class="hero-t2">داهاتوو</span></h1>
+    <p class="hero-sub" id="h-sub">نوێترین تەکنەلۆژیای ئەلیکتریکی بۆ ژیانی باشتر.</p>
+    <div class="hero-btns">
+      <button class="btn-p" id="h-btn1" onclick="document.getElementById('cars-sec').scrollIntoView({behavior:'smooth'})">سەیارەکان ببینە</button>
+      <button class="btn-o" id="h-btn2" onclick="document.getElementById('ct-sec').scrollIntoView({behavior:'smooth'})">پەیوەندیمان پێوە بکە</button>
+    </div>
+  </div>
+  <!-- CLOCK -->
+  <div class="hero-clock">
+    <div class="clock-time" id="clk-time">00:00<span class="clock-secs" id="clk-sec">:00</span></div>
+    <div class="clock-date" id="clk-date">— — —</div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-n" id="s-m">12</div><div class="stat-l" id="s-ml">مۆدیل</div></div>
+    <div class="stat"><div class="stat-n" id="s-c">500+</div><div class="stat-l" id="s-cl">کڕیار</div></div>
+    <div class="stat"><div class="stat-n" id="s-y">5</div><div class="stat-l" id="s-yl">ساڵ</div></div>
+  </div>
+</section>
+
+<section id="cars-sec">
+  <div class="sl" id="cars-lbl">سەیارەکانمان</div>
+  <h2 class="st" id="cars-title">مۆدیلی خۆت هەڵبژێرە</h2>
+  <div class="cg" id="cars-grid"></div>
+</section>
+
+<section id="abt-sec">
+  <div class="abt-t">
+    <div class="sl" id="abt-lbl">دەربارەمان</div>
+    <h2 class="st" id="abt-title">BYD</h2>
+    <p class="abt-body" id="abt-body">دەق دەربارەمان</p>
+    <button class="btn-p" id="abt-btn" onclick="document.getElementById('ct-sec').scrollIntoView({behavior:'smooth'})">زیاتر بزانە</button>
+  </div>
+  <div class="abt-f">
+    <div class="fi"><div class="fic" id="f1-ic">⚡</div><div class="fit"><h4 id="f1-t">ئەلیکتریکی تەواو</h4><p id="f1-d">هەموو مۆدیلەکانمان بە بەرقی کار دەکەن</p></div></div>
+    <div class="fi"><div class="fic" id="f2-ic">🛡️</div><div class="fit"><h4 id="f2-t">دڵنیایی و مەزەندە</h4><p id="f2-d">مەزەندەی کارخانە لەگەڵ خزمەتگوزاری تەکنیکی</p></div></div>
+    <div class="fi"><div class="fic" id="f3-ic">💳</div><div class="fit"><h4 id="f3-t">قیستی ئاسان</h4><p id="f3-d">تووانای کڕین بە قیستی نەرم و ئاسان</p></div></div>
+  </div>
+</section>
+
+<section id="ct-sec">
+  <div class="sl" id="ct-lbl" style="justify-content:center">پەیوەندی</div>
+  <h2 class="st" id="ct-title" style="text-align:center">ئەمڕۆ پەیوەندیمان پێوە بکە</h2>
+  <div class="ctg">
+    <a class="ctc" id="lnk-phone" href="#"><span class="cticon">📞</span><div class="ctlb" id="lbl-phone">تەلەفۆن</div><div class="ctv" id="val-phone">+964 750 000 0000</div></a>
+    <a class="ctc" id="lnk-wa" href="#"><span class="cticon">💬</span><div class="ctlb" id="lbl-wa">واتس ئاپ</div><div class="ctv" id="val-wa">+964 750 000 0000</div></a>
+    <a class="ctc" id="lnk-email" href="#"><span class="cticon">✉️</span><div class="ctlb" id="lbl-email">ئیمەیڵ</div><div class="ctv" id="val-email">info@byd.com</div></a>
+    <a class="ctc" id="lnk-addr" href="#" target="_blank"><span class="cticon">📍</span><div class="ctlb" id="lbl-addr">ناونیشان</div><div class="ctv" id="val-addr">هەولێر، کوردستان</div></a>
+  </div>
+  <div class="hrs-box">
+    <div class="ctlb" id="lbl-hours" style="text-align:center;margin-bottom:9px">کاتی کار</div>
+    <div style="text-align:center;font-size:19px;font-weight:700" id="val-hours">9 بۆ 8 شەو</div>
+  </div>
+</section>
+
+<footer>
+  <div class="flogo">
+    <img id="footer-logo-img" src="" alt="logo">
+    <span id="footer-logo">BYD <span>|</span> فرۆشگا</span>
+  </div>
+  <p id="footer-copy">© 2025 فرۆشگای BYD. هەموو مافەکان پارێزراون.</p>
+</footer>
+
+<script>
+window.onerror=function(msg,src,ln,col,err){console.warn('Global error:',msg,ln);return false;};
+window.addEventListener('unhandledrejection',function(e){console.warn('Unhandled:',e.reason);});
+// ==================== TRANSLATIONS ====================
+const TR={
+  ku:{dir:'rtl',navC:'سەیارەکان',navA:'دەربارەمان',navCt:'پەیوەندی',navCta:'پەیوەندی',
+    carsLbl:'سەیارەکانمان',carsTitle:'مۆدیلی خۆت هەڵبژێرە',moreBtn:'زانیاری زیاتر',ctaBtn:'داواکاری',
+    abtLbl:'دەربارەمان',abtBtn:'زیاتر بزانە',ctLbl:'پەیوەندی',
+    lbPhone:'تەلەفۆن',lbWa:'واتس ئاپ',lbEmail:'ئیمەیڵ',lbAddr:'ناونیشان (کلیک بکە — مەپ)',lbHours:'کاتی کار',
+    priceLbl:'نرخ',detCta:'📞 پەیوەندیمان پێوە بکە',footerCopy:'هەموو مافەکان پارێزراون',
+    pwErr:'❌ پاسووۆردەکە هەڵەیە',
+    invAvail:'✅ بەردەستە',invRes:'🟡 پاراستراوە',invSold:'🔴 فرۆشراوە',
+    tSaved:'✅ تۆمارکرا!',tInv:'✅ مەخزەن تۆمارکرا!',tErr:'❌ هەڵەیەک روویدا',tLogin:'✅ بەخێربێی!',tLogout:'👋 دەرچوویت',tImport:'✅ داتاکان هاتەوە!'},
+  ar:{dir:'rtl',navC:'السيارات',navA:'من نحن',navCt:'تواصل',navCta:'تواصل',
+    carsLbl:'سياراتنا',carsTitle:'اختر موديلك',moreBtn:'تفاصيل',ctaBtn:'طلب',
+    abtLbl:'من نحن',abtBtn:'اعرف أكثر',ctLbl:'تواصل',
+    lbPhone:'هاتف',lbWa:'واتس آب',lbEmail:'إيميل',lbAddr:'عنوان (اضغط — خريطة)',lbHours:'ساعات العمل',
+    priceLbl:'السعر',detCta:'📞 تواصل معنا',footerCopy:'جميع الحقوق محفوظة',
+    pwErr:'❌ كلمة المرور خاطئة',
+    invAvail:'✅ متوفر',invRes:'🟡 محجوز',invSold:'🔴 مباع',
+    tSaved:'✅ تم الحفظ!',tInv:'✅ تم حفظ المخزن!',tErr:'❌ حدث خطأ',tLogin:'✅ مرحباً!',tLogout:'👋 تم الخروج',tImport:'✅ تم الاستيراد!'},
+  en:{dir:'ltr',navC:'Cars',navA:'About',navCt:'Contact',navCta:'Contact',
+    carsLbl:'Our Cars',carsTitle:'Choose Your Model',moreBtn:'Details',ctaBtn:'Inquire',
+    abtLbl:'About Us',abtBtn:'Learn More',ctLbl:'Contact',
+    lbPhone:'Phone',lbWa:'WhatsApp',lbEmail:'Email',lbAddr:'Address (tap — maps)',lbHours:'Working Hours',
+    priceLbl:'Price',detCta:'📞 Contact Us',footerCopy:'All rights reserved',
+    pwErr:'❌ Wrong password',
+    invAvail:'✅ Available',invRes:'🟡 Reserved',invSold:'🔴 Sold',
+    tSaved:'✅ Saved!',tInv:'✅ Inventory saved!',tErr:'❌ Error',tLogin:'✅ Welcome!',tLogout:'👋 Logged out',tImport:'✅ Data imported!'}
+};
+
+// ==================== DEFAULT DATA ====================
+const DS={
+  ku:{shopName:'فرۆشگای BYD',badge:'فرۆشگای فەرمی BYD',t1:'ئۆتۆمبێلی',t2:'داهاتوو',sub:'نوێترین تەکنەلۆژیای ئەلیکتریکی بۆ ژیانی باشتر. BYD پێشرۆی ئینجازی ئۆتۆمبێلی دنیا.',btn1:'سەیارەکان ببینە',statM:'12',statC:'500+',statY:'5',abtTitle:'دەربارەمان',abtBody:'BYD یەکێکە لە پێشەنگترین کۆمپانیاکانی ئۆتۆمبێلی ئەلیکتریکی لە دنیا. ئێمە بەرهەمێکی باشمان دەدەیتە ئیوە بە نرخێکی گونجاو لەگەڵ خزمەتگوزاری تەواو.',ctTitle:'ئەمڕۆ پەیوەندیمان پێوە بکە',footerCopy:'هەموو مافەکان پارێزراون',f1ic:'⚡',f1t:'ئەلیکتریکی تەواو',f1d:'هەموو مۆدیلەکانمان بە بەرقی کار دەکەن، خەرجی کەمتر و ژینگەی پاکتر',f2ic:'🛡️',f2t:'دڵنیایی و مەزەندە',f2d:'مەزەندەی کارخانە لەگەڵ خزمەتگوزاری تەکنیکی لە هەولێر',f3ic:'💳',f3t:'قیستی ئاسان',f3d:'تووانای کڕین بە قیستی نەرم و ئاسان بەبێ فشار'},
+  ar:{shopName:'معرض BYD',badge:'معرض BYD الرسمي',t1:'سيارات',t2:'المستقبل',sub:'أحدث تقنيات السيارات الكهربائية لحياة أفضل. BYD رائد في صناعة السيارات العالمية.',btn1:'تصفح السيارات',statM:'12',statC:'500+',statY:'5',abtTitle:'من نحن',abtBody:'BYD هي إحدى أرقى شركات السيارات الكهربائية في العالم. نقدم لكم منتجاً متميزاً بسعر مناسب مع خدمة متكاملة.',ctTitle:'تواصل معنا اليوم',footerCopy:'جميع الحقوق محفوظة',f1ic:'⚡',f1t:'كهربائي بالكامل',f1d:'جميع موديلاتنا تعمل بالكهرباء، أقل تكلفة وبيئة أنظف',f2ic:'🛡️',f2t:'ضمان وثقة',f2d:'ضمان المصنع مع خدمة فنية في أربيل',f3ic:'💳',f3t:'أقساط ميسرة',f3d:'إمكانية الشراء بأقساط مريحة وبدون ضغط'},
+  en:{shopName:'BYD Showroom',badge:'Official BYD Dealership',t1:'Cars of',t2:'Tomorrow',sub:'The latest electric vehicle technology for a better life. BYD leads global automotive innovation.',btn1:'Browse Cars',statM:'12',statC:'500+',statY:'5',abtTitle:'About Us',abtBody:"BYD is one of the world's leading electric vehicle companies. We offer premium products at competitive prices with full service.",ctTitle:'Contact Us Today',footerCopy:'All rights reserved',f1ic:'⚡',f1t:'Fully Electric',f1d:'All our models run on electricity — lower cost, cleaner environment',f2ic:'🛡️',f2t:'Warranty & Trust',f2d:'Factory warranty with full technical service in Erbil',f3ic:'💳',f3t:'Easy Installments',f3d:'Flexible financing options with no pressure'}
+};
+
+const DC={phone:'+964 750 000 0000',wa:'+9647500000000',email:'info@byd-kurdistan.com',addr:'هەولێر، کوردستان',loc:'',hours:'9 بۆ 8 شەو'};
+
+const DCars=[
+  {ku:{name:'BYD Seal',type:'سیدان ئەلیکتریکی',desc:'ئۆتۆمبێلی ئەلیکتریکی بە ستایلی سپۆرتی و هێزی بەرز',longDesc:'',specs:[{l:'هێز',v:'523 HP'},{l:'شارژ',v:'3.8 چرکە'},{l:'ڕێگا',v:'700 km'}]},ar:{name:'BYD Seal',type:'سيدان كهربائي',desc:'سيارة كهربائية بتصميم رياضي وقوة عالية',longDesc:'',specs:[{l:'قوة',v:'523 HP'},{l:'شحن',v:'3.8 ث'},{l:'مدى',v:'700 كم'}]},en:{name:'BYD Seal',type:'Electric Sedan',desc:'Electric car with sporty design and high performance',longDesc:'',specs:[{l:'Power',v:'523 HP'},{l:'0-100',v:'3.8s'},{l:'Range',v:'700 km'}]},price:'35,000',cur:'USD',badge:'نوێ',images:['https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/BYD_Seal_003_in_white.jpg/1280px-BYD_Seal_003_in_white.jpg']},
+  {ku:{name:'BYD Atto 3',type:'SUV ئەلیکتریکی',desc:'SUV خانەوادەیی بە فراوانی و ئارامی',longDesc:'',specs:[{l:'هێز',v:'204 HP'},{l:'شارژ',v:'7.9 چرکە'},{l:'ڕێگا',v:'480 km'}]},ar:{name:'BYD Atto 3',type:'SUV كهربائي',desc:'SUV عائلي واسع ومريح',longDesc:'',specs:[{l:'قوة',v:'204 HP'},{l:'شحن',v:'7.9 ث'},{l:'مدى',v:'480 كم'}]},en:{name:'BYD Atto 3',type:'Electric SUV',desc:'Spacious and comfortable family SUV',longDesc:'',specs:[{l:'Power',v:'204 HP'},{l:'0-100',v:'7.9s'},{l:'Range',v:'480 km'}]},price:'28,000',cur:'USD',badge:'',images:['https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/BYD_Atto_3_%28facelift%2C_2023%29%2C_front_8.28.23.jpg/1280px-BYD_Atto_3_%28facelift%2C_2023%29%2C_front_8.28.23.jpg']},
+  {ku:{name:'BYD Han',type:'لووکس سیدان',desc:'ئۆتۆمبێلی لووکس بە تەکنەلۆژیای پێشکەوتوو',longDesc:'',specs:[{l:'هێز',v:'469 HP'},{l:'شارژ',v:'3.9 چرکە'},{l:'ڕێگا',v:'605 km'}]},ar:{name:'BYD Han',type:'سيدان فاخر',desc:'سيارة فاخرة بتقنية متطورة',longDesc:'',specs:[{l:'قوة',v:'469 HP'},{l:'شحن',v:'3.9 ث'},{l:'مدى',v:'605 كم'}]},en:{name:'BYD Han',type:'Luxury Sedan',desc:'Luxury car with advanced technology',longDesc:'',specs:[{l:'Power',v:'469 HP'},{l:'0-100',v:'3.9s'},{l:'Range',v:'605 km'}]},price:'45,000',cur:'USD',badge:'پرییمیەم',images:['https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/BYD_Han_EV_China_2021.jpg/1280px-BYD_Han_EV_China_2021.jpg']}
+];
+
+const DD={color:'#E63327',secondary:'#c9a84c',bgColor:'#0a0a0a',bgImage:'',font:'Tajawal',fontSize:'16px',logoImg:'',heroCarImg:'',lightMode:false};
+
+// ==================== STATE ====================
+let lang='ku', adminLang='ku', isLoggedIn=false;
+let siteData=JSON.parse(JSON.stringify(DS));
+let contact=JSON.parse(JSON.stringify(DC));
+let cars=JSON.parse(JSON.stringify(DCars));
+let design=JSON.parse(JSON.stringify(DD));
+let inventory=[];
+let dImgs=[],dIdx=0;
+window.gIdx={};
+let saveTimer=null;
+const PW='1997himad@#$';
+
+// ==================== STORAGE ====================
+const sl=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true;}catch(e){return false;}};
+const gl=(k)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;}};
+
+function loadAll(){
+  const sd=gl('byd_sd');if(sd)siteData=sd;
+  const cd=gl('byd_cd');if(cd)cars=cd;
+  const ct=gl('byd_ct');if(ct)contact=ct;
+  const dg=gl('byd_dg');if(dg)design=dg;
+  const iv=gl('byd_iv');if(iv)inventory=iv;
+}
+function saveAll(){
+  sl('byd_sd',siteData);sl('byd_cd',cars);sl('byd_ct',contact);sl('byd_dg',design);sl('byd_iv',inventory);
+  const si=document.getElementById('si');if(si){si.style.opacity='1';setTimeout(()=>si.style.opacity='0',1800);}
+}
+function scheduleSave(){if(saveTimer)clearTimeout(saveTimer);saveTimer=setTimeout(saveAll,800);}
+
+// ==================== CLOCK ====================
+function updateClock(){
+  const now=new Date();
+  const h=String(now.getHours()).padStart(2,'0');
+  const m=String(now.getMinutes()).padStart(2,'0');
+  const s=String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('clk-time').innerHTML=`${h}:${m}<span class="clock-secs">:${s}</span>`;
+  const days={ku:['یەکشەممە','دووشەممە','سێشەممە','چوارشەممە','پێنجشەممە','هەینی','شەممە'],ar:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],en:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']};
+  const months={ku:['کانوونی دووەم','شوبات','ئازار','نیسان','ئایار','حوزەیران','تەممووز','ئاب','ئەیلوول','تشرینی یەکەم','تشرینی دووەم','کانوونی یەکەم'],ar:['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],en:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']};
+  const d=now.getDate(),mo=now.getMonth(),y=now.getFullYear(),dw=now.getDay();
+  const L=lang||'ku';
+  document.getElementById('clk-date').textContent=`${days[L][dw]} ${d} ${months[L][mo]} ${y}`;
+}
+setInterval(updateClock,1000);updateClock();
+
+// ==================== PASSWORD ====================
+function reqAdm(){try{if(isLoggedIn){toggleAdm();}else{document.getElementById('pw-modal').classList.add('show');setTimeout(()=>document.getElementById('pw-inp').focus(),100);}}catch(e){console.warn('reqAdm',e);}}
+function chkPW(){
+  const v=document.getElementById('pw-inp').value,inp=document.getElementById('pw-inp'),err=document.getElementById('pw-err');
+  if(v===PW){isLoggedIn=true;document.getElementById('pw-modal').classList.remove('show');inp.value='';err.style.display='none';inp.classList.remove('wrong');toggleAdm();showToast(TR[lang].tLogin,'ok');}
+  else{inp.classList.add('wrong');err.style.display='block';err.textContent=TR[lang].pwErr;inp.value='';setTimeout(()=>inp.classList.remove('wrong'),400);}
+}
+function closePW(){document.getElementById('pw-modal').classList.remove('show');document.getElementById('pw-inp').value='';document.getElementById('pw-err').style.display='none';}
+function logout(){isLoggedIn=false;document.getElementById('adm').classList.remove('open');showToast(TR[lang].tLogout,'ok');}
+function toggleAdm(){document.getElementById('adm').classList.toggle('open');}
+
+// ==================== THEME ====================
+function toggleTheme(){
+  design.lightMode=!design.lightMode;
+  applyTheme();scheduleSave();
+}
+function applyTheme(){
+  document.body.classList.toggle('light-mode',design.lightMode);
+  document.getElementById('theme-btn').textContent=design.lightMode?'🌙':'☀️';
+}
+
+// ==================== COLORS ====================
+const CP1={
+  a:['#e63327','#c0392b','#96281b','#e74c3c','#b03a2e','#922b21'],
+  b:['#e67e22','#d35400','#ca6f1e','#f39c12','#d4ac0d','#b7950b'],
+  c:['#2980b9','#1a5276','#2471a3','#5dade2','#1f618d','#7fb3d3'],
+  d:['#27ae60','#1e8449','#196f3d','#0e6655','#0a3d2b','#148f77'],
+  e:['#5d6d7e','#2e4057','#1c2833','#4a235a','#6c3483','#512e5f']
+};
+const CP2={
+  a:['#c9a84c','#d4a017','#b8860b','#a0a0a0','#c0c0c0','#9b9b9b'],
+  b:['#1a5276','#2980b9','#5dade2','#0e6655','#148f77','#45b39d'],
+  c:['#1e8449','#196f3d','#27ae60','#7dbb8c','#4a8c5c','#2d6a4f']
+};
+const BG_PRESETS=['#0a0a0a','#050505','#0d1117','#1a1a2e','#0f0e17','#1c1c1c','#f5f5f5','#ffffff','#f0f4f8','#fafafa'];
+
+function applyColor(c,skip){design.color=c;document.documentElement.style.setProperty('--p',c);const e=document.getElementById('cc1');if(e)e.value=c;const p=document.getElementById('c1p');if(p)p.style.background=c;document.querySelectorAll('.cs1').forEach(s=>s.classList.toggle('sel',s.dataset.c===c));if(!skip)scheduleSave();}
+function applySecondary(c,skip){design.secondary=c;document.documentElement.style.setProperty('--s',c);document.documentElement.style.setProperty('--accent',c);const e=document.getElementById('cc2');if(e)e.value=c;const p=document.getElementById('c2p');if(p)p.style.background=c;document.querySelectorAll('.cs2').forEach(s=>s.classList.toggle('sel',s.dataset.c===c));if(!skip)scheduleSave();}
+function applyBg(c,skip){design.bgColor=c;const hb=document.getElementById('hero-bg');if(hb)hb.style.background=c;const e=document.getElementById('cc-bg');if(e)e.value=c;document.querySelectorAll('.csbg').forEach(s=>s.classList.toggle('sel',s.dataset.c===c));if(!skip)scheduleSave();}
+function applyFont(f,skip){design.font=f;const lk=document.getElementById('gfont');lk.href=`https://fonts.googleapis.com/css2?family=${f}:wght@300;400;500;700;900&family=Bebas+Neue&display=swap`;document.documentElement.style.setProperty('--font',`'${f.replace(/\+/g,' ')}',sans-serif`);if(!skip)scheduleSave();}
+function applyFontSize(sz,btn,skip){design.fontSize=sz;document.documentElement.style.setProperty('--fs',sz);document.querySelectorAll('.fs-active').forEach(b=>{b.classList.remove('fs-active');b.style.background='';b.style.borderColor='';b.style.color='';});if(btn){btn.classList.add('fs-active');btn.style.background='var(--p)';btn.style.borderColor='var(--p)';btn.style.color='#fff';}if(!skip)scheduleSave();}
+
+function changeLogo(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{design.logoImg=e.target.result;applyLogo();scheduleSave();};r.readAsDataURL(f);}
+function clearLogo(){design.logoImg='';applyLogo();scheduleSave();}
+function applyLogo(){
+  const show=!!design.logoImg;
+  ['nav-logo-img','footer-logo-img'].forEach(id=>{const el=document.getElementById(id);if(el){el.src=design.logoImg||'';el.classList.toggle('show',show);}});
+  const nl=document.getElementById('nav-logo');if(nl)nl.style.display=show?'none':'block';
+  const fl=document.getElementById('footer-logo');if(fl)fl.style.display=show?'none':'block';
+  const lp=document.getElementById('logo-preview');if(lp&&design.logoImg)lp.innerHTML=`<img src="${design.logoImg}" style="height:50px;object-fit:contain;margin-top:7px;border-radius:8px">`;
+}
+
+function clearHeroCar(){design.heroCarImg='';const img=document.getElementById('hero-car-img');if(img){img.src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/BYD_Seal_003_in_white.jpg/1280px-BYD_Seal_003_in_white.jpg';img.style.opacity='0.85';}const p=document.getElementById('hcp');if(p)p.innerHTML='';scheduleSave();showToast('✅ وێنەکە سڕایەوە','ok');}
+function changeHeroCar(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{design.heroCarImg=e.target.result;document.getElementById('hero-car-img').src=e.target.result;const p=document.getElementById('hcp');if(p)p.innerHTML=`<img src="${e.target.result}" style="width:100%;height:100px;object-fit:contain;background:var(--bg3);border-radius:8px;border:1px solid var(--border);margin-top:6px">`;scheduleSave();};r.readAsDataURL(f);}
+function changeBgImg(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{design.bgImage=e.target.result;document.getElementById('hero-bg-img').style.backgroundImage=`url(${e.target.result})`;scheduleSave();};r.readAsDataURL(f);}
+function clearBgImg(){design.bgImage='';document.getElementById('hero-bg-img').style.backgroundImage='';scheduleSave();}
+
+function renderSwatches(){try{
+  const mk=(arr,id,cls,fn)=>{const el=document.getElementById(id);if(el)el.innerHTML=arr.map(c=>`<div class="cs ${cls}${c===design.color&&cls==='cs1 '?' sel':c===design.secondary&&cls==='cs2 '?' sel':''}" data-c="${c}" style="background:${c}" onclick="${fn}('${c}')" title="${c}"></div>`).join('');};
+  Object.entries(CP1).forEach(([k,arr],i)=>mk(arr,'c1'+['a','b','c','d','e'][i],'cs1 ','applyColor'));
+  Object.entries(CP2).forEach(([k,arr],i)=>mk(arr,'c2'+['a','b','c'][i],'cs2 ','applySecondary'));
+  const be=document.getElementById('bg-swatches');if(be)be.innerHTML=BG_PRESETS.map(c=>`<div class="cs csbg${c===design.bgColor?' sel':''}" data-c="${c}" style="background:${c};border:2px solid ${c===(design.bgColor)?' white':'#444'}" onclick="applyBg('${c}')" title="${c}"></div>`).join('');
+  const cc1=document.getElementById('cc1');if(cc1){cc1.value=design.color;cc1.onchange=function(){applyColor(this.value);};}
+  const cc2=document.getElementById('cc2');if(cc2){cc2.value=design.secondary;cc2.onchange=function(){applySecondary(this.value);};}
+  const ccb=document.getElementById('cc-bg');if(ccb){ccb.value=design.bgColor||'#0a0a0a';ccb.onchange=function(){applyBg(this.value);};}}catch(e){console.warn('renderSwatches',e);}
+}
+
+// ==================== WHATSAPP ====================
+function openWA(){const num=(contact.wa||contact.phone||'').replace(/\D/g,'');if(num)window.open(`https://wa.me/${num}`,'_blank');}
+
+// ==================== LANGUAGE ====================
+function setLang(l,btn){
+  lang=l;
+  document.documentElement.lang=l;
+  document.documentElement.dir=TR[l].dir;
+  document.body.dir=TR[l].dir;
+  document.querySelectorAll('.lb2').forEach(b=>{
+    const txt=b.textContent.trim();
+    b.classList.toggle('active',(l==='ku'&&(txt.includes('کو')||txt.includes('کوردی')))||(l==='ar'&&(txt.includes('ع')||txt.includes('عربی'))&&!txt.includes('کو'))||(l==='en'&&(txt.includes('EN')||txt.includes('English'))));
+  });
+  applyPage();renderCarsGrid();updateClock();
+}
+
+function applyPage(){
+  const t=TR[lang],s=siteData[lang];
+  document.getElementById('nl-c').textContent=t.navC;
+  document.getElementById('nl-a').textContent=t.navA;
+  document.getElementById('nl-ct').textContent=t.navCt;
+  document.getElementById('nav-cta').textContent=t.navCta;
+  document.getElementById('h-badge').textContent=s.badge;
+  document.getElementById('h-t1').textContent=s.t1;
+  document.getElementById('h-t2').textContent=s.t2;
+  document.getElementById('h-sub').textContent=s.sub;
+  document.getElementById('h-btn1').textContent=s.btn1;
+  document.getElementById('h-btn2').textContent=TR[lang].navCta;
+  document.getElementById('s-m').textContent=s.statM;
+  document.getElementById('s-ml').textContent=t.navC==='Cars'?'Models':'مۆدیل';
+  document.getElementById('s-c').textContent=s.statC;
+  document.getElementById('s-cl').textContent=t.navC==='Cars'?'Customers':t.dir==='rtl'&&lang==='ar'?'زبون':'کڕیار';
+  document.getElementById('s-y').textContent=s.statY;
+  document.getElementById('s-yl').textContent=t.navC==='Cars'?'Years':lang==='ar'?'سنة':'ساڵ';
+  document.getElementById('cars-lbl').textContent=t.carsLbl;
+  document.getElementById('cars-title').textContent=t.carsTitle;
+  document.getElementById('abt-lbl').textContent=t.abtLbl;
+  document.getElementById('abt-title').textContent=s.abtTitle;
+  document.getElementById('abt-body').textContent=s.abtBody;
+  document.getElementById('abt-btn').textContent=t.abtBtn;
+  document.getElementById('f1-ic').textContent=s.f1ic;document.getElementById('f1-t').textContent=s.f1t;document.getElementById('f1-d').textContent=s.f1d;
+  document.getElementById('f2-ic').textContent=s.f2ic;document.getElementById('f2-t').textContent=s.f2t;document.getElementById('f2-d').textContent=s.f2d;
+  document.getElementById('f3-ic').textContent=s.f3ic;document.getElementById('f3-t').textContent=s.f3t;document.getElementById('f3-d').textContent=s.f3d;
+  document.getElementById('ct-lbl').textContent=t.ctLbl;
+  document.getElementById('ct-title').textContent=s.ctTitle;
+  document.getElementById('lbl-phone').textContent=t.lbPhone;
+  document.getElementById('lbl-wa').textContent=t.lbWa;
+  document.getElementById('lbl-email').textContent=t.lbEmail;
+  document.getElementById('lbl-addr').textContent=t.lbAddr;
+  document.getElementById('lbl-hours').textContent=t.lbHours;
+  document.getElementById('val-phone').textContent=contact.phone;
+  document.getElementById('val-wa').textContent=contact.wa||contact.phone;
+  document.getElementById('val-email').textContent=contact.email;
+  document.getElementById('val-addr').textContent=contact.addr;
+  document.getElementById('val-hours').textContent=contact.hours;
+  document.getElementById('lnk-phone').href=`tel:${contact.phone}`;
+  document.getElementById('lnk-wa').onclick=(e)=>{e.preventDefault();openWA();};
+  document.getElementById('lnk-email').href=`mailto:${contact.email}`;
+  document.getElementById('lnk-addr').href=contact.loc||'#';
+  if(!contact.loc)document.getElementById('lnk-addr').onclick=(e)=>e.preventDefault();
+  const name=s.shopName||'BYD';
+  const nlogo=document.getElementById('nav-logo');if(nlogo)nlogo.innerHTML=`BYD <span>|</span> ${name}`;
+  const flogo=document.getElementById('footer-logo');if(flogo)flogo.innerHTML=`BYD <span>|</span> ${name}`;
+  document.getElementById('footer-copy').textContent=`© 2025 ${name}. ${s.footerCopy||t.footerCopy}`;
+  document.title=`BYD - ${name}`;
+}
+
+// ==================== ADMIN LANG ====================
+function setAL(l,btn){
+  adminLang=l;
+  document.querySelectorAll('#alang-tabs .adm-tab').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  renderHeroFields();renderAboutFields();renderCarsAdmin();
+}
+
+function renderHeroFields(){
+  const s=siteData[adminLang];
+  document.getElementById('hero-fields').innerHTML=`
+    <div class="af"><label>ناوی فرۆشگا</label><input id="ah-sn" value="${s.shopName||''}" oninput="scheduleSave()"></div>
+    <div class="af"><label>بیجی سەرەوە</label><input id="ah-bg" value="${s.badge||''}" oninput="scheduleSave()"></div>
+    <div class="af"><label>ناونیشان خەتی ١</label><input id="ah-t1" value="${s.t1||''}" oninput="scheduleSave()"></div>
+    <div class="af"><label>ناونیشان خەتی ٢ (سووری/زێڕی)</label><input id="ah-t2" value="${s.t2||''}" oninput="scheduleSave()"></div>
+    <div class="af"><label>دەقی لەژێر</label><textarea id="ah-sub" oninput="scheduleSave()">${s.sub||''}</textarea></div>
+    <div class="af"><label>دوگمەی سەرەکی</label><input id="ah-b1" value="${s.btn1||''}" oninput="scheduleSave()"></div>
+    <div class="af"><label>ژمارەی مۆدیل</label><input id="ah-sm" value="${s.statM||''}" oninput="scheduleSave()"></div>
+    <div class="af"><label>ژمارەی کڕیار</label><input id="ah-sc" value="${s.statC||''}" oninput="scheduleSave()"></div>
+    <div class="af"><label>ساڵانەی کار</label><input id="ah-sy" value="${s.statY||''}" oninput="scheduleSave()"></div>
+    <div class="af"><label>ناونیشانی پەیوەندی</label><input id="ah-ct" value="${s.ctTitle||''}" oninput="scheduleSave()"></div>
+    <div class="af"><label>دەقی کۆپی رایت</label><input id="ah-fc" value="${s.footerCopy||''}" oninput="scheduleSave()"></div>
+  `;
+}
+
+function renderAboutFields(){
+  const s=siteData[adminLang];
+  document.getElementById('about-fields').innerHTML=`
+    <div class="af"><label>ناونیشان</label><input id="aa-t" value="${s.abtTitle||''}" oninput="scheduleSave()"></div>
+    <div class="af"><label>دەق</label><textarea id="aa-b" oninput="scheduleSave()">${s.abtBody||''}</textarea></div>
+    <div style="height:1px;background:var(--border);margin:10px 0"></div>
+    <div style="font-size:10px;color:var(--s);letter-spacing:2px;margin-bottom:9px">تایبەتمەندیەکان</div>
+    <div class="af"><label>ئایکۆنی ١</label><input id="af1i" value="${s.f1ic||'⚡'}" oninput="scheduleSave()"></div>
+    <div class="af"><label>ناوی ١</label><input id="af1t" value="${s.f1t||''}" oninput="scheduleSave()"></div>
+    <div class="af"><label>وەسفی ١</label><input id="af1d" value="${s.f1d||''}" oninput="scheduleSave()"></div>
+    <div class="af"><label>ئایکۆنی ٢</label><input id="af2i" value="${s.f2ic||'🛡️'}" oninput="scheduleSave()"></div>
+    <div class="af"><label>ناوی ٢</label><input id="af2t" value="${s.f2t||''}" oninput="scheduleSave()"></div>
+    <div class="af"><label>وەسفی ٢</label><input id="af2d" value="${s.f2d||''}" oninput="scheduleSave()"></div>
+    <div class="af"><label>ئایکۆنی ٣</label><input id="af3i" value="${s.f3ic||'💳'}" oninput="scheduleSave()"></div>
+    <div class="af"><label>ناوی ٣</label><input id="af3t" value="${s.f3t||''}" oninput="scheduleSave()"></div>
+    <div class="af"><label>وەسفی ٣</label><input id="af3d" value="${s.f3d||''}" oninput="scheduleSave()"></div>
+  `;
+}
+
+function renderCarsAdmin(){
+  document.getElementById('cars-list').innerHTML=cars.map((car,i)=>{
+    const lc=car[adminLang]||car.ku;
+    return `<div class="ce">
+      <div class="ce-num">🚗 #${i+1} — ${lc.name}</div>
+      <button class="ce-rm" onclick="removeCar(${i})">✕</button>
+      <div class="af"><label>ناو</label><input id="c${i}n" value="${lc.name}" oninput="scheduleSave()"></div>
+      <div class="af"><label>جۆر</label><input id="c${i}t" value="${lc.type}" oninput="scheduleSave()"></div>
+      <div class="af"><label>وەسفی کورت</label><textarea id="c${i}d" oninput="scheduleSave()">${lc.desc}</textarea></div>
+      <div class="af"><label>وەسفی تەواو (زیاتر دەربارەی سەیارەکە)</label><textarea id="c${i}ld" style="height:90px" oninput="scheduleSave()">${lc.longDesc||''}</textarea></div>
+      <div class="af"><label>تایبەتمەندی ١ (ناو:بەها)</label><input id="c${i}s0" value="${lc.specs&&lc.specs[0]?lc.specs[0].l+':'+lc.specs[0].v:''}" placeholder="هێز:523 HP" oninput="scheduleSave()"></div>
+      <div class="af"><label>تایبەتمەندی ٢</label><input id="c${i}s1" value="${lc.specs&&lc.specs[1]?lc.specs[1].l+':'+lc.specs[1].v:''}" placeholder="شارژ:3.8s" oninput="scheduleSave()"></div>
+      <div class="af"><label>تایبەتمەندی ٣</label><input id="c${i}s2" value="${lc.specs&&lc.specs[2]?lc.specs[2].l+':'+lc.specs[2].v:''}" placeholder="ڕێگا:700 km" oninput="scheduleSave()"></div>
+      <div class="af"><label>تایبەتمەندی ٤</label><input id="c${i}s3" value="${lc.specs&&lc.specs[3]?lc.specs[3].l+':'+lc.specs[3].v:''}" placeholder="باتری:100 kWh" oninput="scheduleSave()"></div>
+      <div class="af"><label>نرخ</label><input id="c${i}p" value="${car.price}" oninput="scheduleSave()"></div>
+      <div class="af"><label>دراو</label><input id="c${i}cu" value="${car.cur||'USD'}" oninput="scheduleSave()"></div>
+      <div class="af"><label>بیج (نوێ / پرییمیەم / بەتاڵ)</label><input id="c${i}b" value="${car.badge||''}" oninput="scheduleSave()"></div>
+      <div class="af">
+        <label>وێنەکان</label>
+        <label for="c${i}f" style="background:var(--p);color:#fff;padding:8px 13px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:5px;margin-bottom:7px">📷 وێنە زیاد بکە</label>
+        <input type="file" id="c${i}f" accept="image/*" multiple style="display:none" onchange="upImgs(this,${i})">
+        <div style="display:flex;flex-wrap:wrap;gap:5px">${(car.images||[]).map((src,gi)=>`<div style="position:relative"><img src="${src}" style="width:70px;height:52px;object-fit:cover;border-radius:7px;border:1px solid var(--border)"><button onclick="rmImg(${i},${gi})" style="position:absolute;top:-4px;right:-4px;background:var(--p);border:none;color:#fff;width:16px;height:16px;border-radius:50%;font-size:9px;cursor:pointer">✕</button></div>`).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function addCar(){
+  cars.push({ku:{name:'مۆدیلی نوێ',type:'جۆر',desc:'وەسف',longDesc:'',specs:[{l:'هێز',v:''},{l:'شارژ',v:''},{l:'ڕێگا',v:''}]},ar:{name:'موديل جديد',type:'نوع',desc:'وصف',longDesc:'',specs:[{l:'قوة',v:''},{l:'شحن',v:''},{l:'مدى',v:''}]},en:{name:'New Model',type:'Type',desc:'Desc',longDesc:'',specs:[{l:'Power',v:''},{l:'0-100',v:''},{l:'Range',v:''}]},price:'0',cur:'USD',badge:'',images:[]});
+  renderCarsAdmin();renderCarsGrid();
+}
+function removeCar(i){if(cars.length<=1){showToast('دەبێت لانیکەم یەک هەبێت!','er');return;}cars.splice(i,1);renderCarsAdmin();renderCarsGrid();}
+function upImgs(inp,i){Array.from(inp.files).forEach(f=>{const r=new FileReader();r.onload=e=>{if(!cars[i].images)cars[i].images=[];cars[i].images.push(e.target.result);renderCarsAdmin();renderCarsGrid();scheduleSave();};r.readAsDataURL(f);});inp.value='';}
+function rmImg(i,gi){cars[i].images.splice(gi,1);renderCarsAdmin();renderCarsGrid();scheduleSave();}
+
+const gv=(id,def)=>{const e=document.getElementById(id);return e?e.value:(def??'');};
+const ps=(id)=>{const v=gv(id,null);if(!v)return null;const p=v.split(':');return p.length>=2?{l:p[0].trim(),v:p.slice(1).join(':').trim()}:null;};
+
+function collectAll(){
+  // site data
+  const s=siteData[adminLang];
+  siteData[adminLang]={...s,shopName:gv('ah-sn',s.shopName),badge:gv('ah-bg',s.badge),t1:gv('ah-t1',s.t1),t2:gv('ah-t2',s.t2),sub:gv('ah-sub',s.sub),btn1:gv('ah-b1',s.btn1),statM:gv('ah-sm',s.statM),statC:gv('ah-sc',s.statC),statY:gv('ah-sy',s.statY),ctTitle:gv('ah-ct',s.ctTitle),footerCopy:gv('ah-fc',s.footerCopy),abtTitle:gv('aa-t',s.abtTitle),abtBody:gv('aa-b',s.abtBody),f1ic:gv('af1i',s.f1ic),f1t:gv('af1t',s.f1t),f1d:gv('af1d',s.f1d),f2ic:gv('af2i',s.f2ic),f2t:gv('af2t',s.f2t),f2d:gv('af2d',s.f2d),f3ic:gv('af3i',s.f3ic),f3t:gv('af3t',s.f3t),f3d:gv('af3d',s.f3d)};
+  // cars
+  cars=cars.map((car,i)=>{
+    const lc=car[adminLang]||car.ku;
+    const specs=[ps(`c${i}s0`),ps(`c${i}s1`),ps(`c${i}s2`),ps(`c${i}s3`)].filter(Boolean);
+    return {...car,[adminLang]:{...lc,name:gv(`c${i}n`,lc.name),type:gv(`c${i}t`,lc.type),desc:gv(`c${i}d`,lc.desc),longDesc:gv(`c${i}ld`,lc.longDesc||''),specs:specs.length?specs:lc.specs},price:gv(`c${i}p`,car.price),cur:gv(`c${i}cu`,car.cur),badge:gv(`c${i}b`,car.badge),images:car.images||[]};
+  });
+  // contact
+  contact={phone:gv('ct-phone',contact.phone),wa:gv('ct-wa',contact.wa),email:gv('ct-email',contact.email),addr:gv('ct-addr',contact.addr),loc:gv('ct-loc',contact.loc),hours:gv('ct-hours',contact.hours)};
+}
+
+function applyAll(){
+  collectAll();saveAll();applyPage();renderCarsGrid();renderCarsAdmin();renderHeroFields();renderAboutFields();
+  showToast(TR[lang].tSaved,'ok');
+}
+
+// ==================== CARS GRID ====================
+function renderCarsGrid(){
+  const t=TR[lang];
+  document.getElementById('cars-grid').innerHTML=cars.map((car,ci)=>{
+    const lc=car[lang]||car.ku;
+    const imgs=car.images&&car.images.length?car.images:[];
+    const idx=window.gIdx[ci]||0;
+    const hm=imgs.length>1;
+    return `<div class="cc2">
+      <div class="cg-wrap" id="cg-${ci}" onclick="openDet(${ci})">
+        <img id="gi-${ci}" src="${imgs[idx]||''}" alt="${lc.name}" onerror="this.src='https://via.placeholder.com/400x250/141414/333?text=${encodeURIComponent(lc.name)}'">
+        ${car.badge?`<div class="cbadge">${car.badge}</div>`:''}
+        ${hm?`<button class="gnav n" onclick="gN(${ci},-1,event)">&#8249;</button><button class="gnav p" onclick="gN(${ci},1,event)">&#8250;</button><div class="gdots">${imgs.map((_,di)=>`<div class="gdot${di===idx?' a':''}" onclick="gG(${ci},${di},event)"></div>`).join('')}</div>`:''}
+      </div>
+      <div class="ci">
+        <div class="ctlbl">${lc.type}</div>
+        <div class="cname">${lc.name}</div>
+        <div class="cdesc">${lc.desc}</div>
+        <div class="cprow">
+          <div><div class="cprice">${car.price}</div><div class="cpl">${car.cur||'USD'}</div></div>
+          <div class="cbtns">
+            <button class="cmore" onclick="openDet(${ci})">${t.moreBtn}</button>
+            <button class="cask" onclick="document.getElementById('ct-sec').scrollIntoView({behavior:'smooth'})">${t.ctaBtn}</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function gN(ci,dir,e){e&&e.stopPropagation();const imgs=cars[ci].images||[];if(imgs.length<2)return;let idx=((window.gIdx[ci]||0)+dir+imgs.length)%imgs.length;window.gIdx[ci]=idx;document.getElementById('gi-'+ci).src=imgs[idx];document.querySelectorAll(`#cg-${ci} .gdot`).forEach((d,i)=>d.classList.toggle('a',i===idx));}
+function gG(ci,di,e){e&&e.stopPropagation();window.gIdx[ci]=di;document.getElementById('gi-'+ci).src=(cars[ci].images||[])[di]||'';document.querySelectorAll(`#cg-${ci} .gdot`).forEach((d,i)=>d.classList.toggle('a',i===di));}
+
+// ==================== DETAIL MODAL ====================
+function openDet(ci){
+  const car=cars[ci];const lc=car[lang]||car.ku;const t=TR[lang];
+  dImgs=car.images&&car.images.length?car.images:[];dIdx=0;
+  document.getElementById('dt-type').textContent=lc.type;
+  document.getElementById('dt-name').textContent=lc.name;
+  document.getElementById('dt-short').textContent=lc.desc;
+  const ld=document.getElementById('dt-long');
+  if(lc.longDesc&&lc.longDesc.trim()){ld.textContent=lc.longDesc;ld.style.display='block';}else{ld.style.display='none';}
+  document.getElementById('dt-plbl').textContent=t.priceLbl;
+  document.getElementById('dt-price').textContent=car.price+' '+(car.cur||'USD');
+  document.getElementById('dt-cta').textContent=t.detCta;
+  document.getElementById('dt-specs').innerHTML=(lc.specs||[]).map(s=>`<div class="spec-c"><div class="spec-l">${s.l}</div><div class="spec-v">${s.v}</div></div>`).join('');
+  document.getElementById('dm-img').src=dImgs[0]||`https://via.placeholder.com/800x400/141414/333?text=${encodeURIComponent(lc.name)}`;
+  const hm=dImgs.length>1;
+  document.getElementById('dthumbs').innerHTML=hm?dImgs.map((src,i)=>`<img class="det-thumb${i===0?' active':''}" id="dth-${i}" src="${src}" onclick="dGo(${i})">`).join(''):'';
+  document.getElementById('ddots').innerHTML=hm?dImgs.map((_,i)=>`<div class="ddot${i===0?' active':''}" id="ddt-${i}" onclick="dGo(${i})"></div>`).join(''):'';
+  document.querySelectorAll('.dgnav').forEach(b=>b.style.display=hm?'flex':'none');
+  document.getElementById('det-modal').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function dNav(dir){if(!dImgs.length)return;dGo((dIdx+dir+dImgs.length)%dImgs.length);}
+function dGo(i){dIdx=i;document.getElementById('dm-img').src=dImgs[i];document.querySelectorAll('.det-thumb').forEach((t,ti)=>t.classList.toggle('active',ti===i));document.querySelectorAll('.ddot').forEach((d,di)=>d.classList.toggle('active',di===i));}
+function closeDet(){document.getElementById('det-modal').classList.remove('show');document.body.style.overflow='';}
+
+// ==================== INVENTORY ====================
+const ISTC=['available','reserved','sold'];
+const ICLRS={'#ffffff':'سپی','#000000':'ریش','#c0392b':'سووری','#2980b9':'شین','#27ae60':'سەوز','#f39c12':'زەرد','#8e44ad':'مۆر','#7f8c8d':'مزمز','#d35400':'پرتەقاڵی','#bdc3c7':'سیلڤەر'};
+const ICLRK=Object.keys(ICLRS);
+
+function stLbl(s){const t=TR[lang];return s==='available'?t.invAvail:s==='reserved'?t.invRes:t.invSold;}
+function renderInv(){
+  const t=TR[lang];
+  const tot=inventory.length,av=inventory.filter(r=>r.s==='available').length,so=inventory.filter(r=>r.s==='sold').length,re=inventory.filter(r=>r.s==='reserved').length;
+  document.getElementById('inv-sum').innerHTML=`<div class="isc"><div class="isc-n" style="color:var(--text)">${tot}</div><div class="isc-l">Total</div></div><div class="isc"><div class="isc-n" style="color:#27ae60">${av}</div><div class="isc-l">${t.invAvail}</div></div><div class="isc"><div class="isc-n" style="color:var(--s)">${re}</div><div class="isc-l">${t.invRes}</div></div><div class="isc"><div class="isc-n" style="color:var(--p)">${so}</div><div class="isc-l">${t.invSold}</div></div>`;
+  document.getElementById('inv-body').innerHTML=inventory.map((r,i)=>`<tr><td><input id="iv${i}n" value="${r.n||''}"></td><td><input id="iv${i}ch" value="${r.ch||''}" style="direction:ltr;font-size:11px"></td><td><div class="cc"><div class="cdot" style="background:${r.c||'#fff'}" onclick="ivCC(${i})" title="${ICLRS[r.c]||''}"></div><span style="font-size:10px;color:var(--muted)">${ICLRS[r.c]||''}</span></div></td><td><button class="ist ${r.s||'available'}" onclick="ivCS(${i})">${stLbl(r.s||'available')}</button></td><td><button class="idel" onclick="ivDel(${i})">✕</button></td></tr>`).join('');
+}
+function ivCol(){inventory=inventory.map((r,i)=>({...r,n:gv(`iv${i}n`,r.n),ch:gv(`iv${i}ch`,r.ch)}));}
+function ivCS(i){ivCol();const c=ISTC.indexOf(inventory[i].s||'available');inventory[i].s=ISTC[(c+1)%3];renderInv();}
+function ivCC(i){ivCol();const c=ICLRK.indexOf(inventory[i].c||'#ffffff');inventory[i].c=ICLRK[(c+1)%ICLRK.length];renderInv();}
+function addInv(){ivCol();inventory.push({n:'BYD',ch:'',c:'#ffffff',s:'available'});renderInv();}
+function ivDel(i){ivCol();inventory.splice(i,1);renderInv();}
+function saveInv(){ivCol();sl('byd_iv',inventory);renderInv();showToast(TR[lang].tInv,'ok');}
+
+// ==================== EXPORT/IMPORT ====================
+function exportData(){
+  collectAll();
+  const d={site:siteData,cars,contact,design,inventory,v:6,date:new Date().toISOString()};
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(d)],{type:'application/json'}));a.download='byd-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+}
+function importData(inp){
+  const f=inp.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);
+      if(d.site)siteData=d.site;if(d.cars)cars=d.cars;if(d.contact)contact=d.contact;if(d.design)design=d.design;if(d.inventory)inventory=d.inventory;
+      saveAll();applyDesignAll();fillContactFields();applyPage();renderCarsGrid();renderCarsAdmin();renderHeroFields();renderAboutFields();renderInv();
+      showToast(TR[lang].tImport,'ok');
+    }catch(err){showToast(TR[lang].tErr,'er');}
+  };r.readAsText(f);inp.value='';
+}
+
+function fillContactFields(){
+  const f=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||'';};
+  f('ct-phone',contact.phone);f('ct-wa',contact.wa);f('ct-email',contact.email);f('ct-addr',contact.addr);f('ct-loc',contact.loc);f('ct-hours',contact.hours);
+}
+
+// ==================== APPLY DESIGN ALL ====================
+function applyDesignAll(){
+  applyColor(design.color,true);
+  applySecondary(design.secondary||'#c9a84c',true);
+  applyBg(design.bgColor||'#0a0a0a',true);
+  applyFont(design.font||'Tajawal',true);
+  applyFontSize(design.fontSize||'16px',null,true);
+  applyTheme();
+  renderSwatches();
+  applyLogo();
+  const fs=document.getElementById('font-sel');if(fs)fs.value=design.font||'Tajawal';
+  if(design.heroCarImg){document.getElementById('hero-car-img').src=design.heroCarImg;const p=document.getElementById('hcp');if(p)p.innerHTML=`<img src="${design.heroCarImg}" style="width:100%;height:90px;object-fit:contain;background:var(--bg3);border-radius:8px;margin-top:6px">`;}
+  if(design.bgImage){document.getElementById('hero-bg-img').style.backgroundImage=`url(${design.bgImage})`;}
+}
+
+// ==================== TOAST ====================
+function showToast(msg,type='ok'){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.classList.remove('show'),3500);}
+
+// ==================== INIT ====================
+async function init(){
+  try { loadAll(); } catch(e){ console.warn('loadAll',e); }
+  try { applyDesignAll(); } catch(e){ console.warn('applyDesignAll',e); }
+  try { fillContactFields(); } catch(e){ console.warn('fillContactFields',e); }
+  try { setLang('ku',document.querySelector('.lb2')); } catch(e){ console.warn('setLang',e); }
+  try { renderCarsGrid(); } catch(e){ console.warn('renderCarsGrid',e); }
+  try { renderHeroFields(); } catch(e){ console.warn('renderHeroFields',e); }
+  try { renderAboutFields(); } catch(e){ console.warn('renderAboutFields',e); }
+  try { renderCarsAdmin(); } catch(e){ console.warn('renderCarsAdmin',e); }
+  try { renderInv(); } catch(e){ console.warn('renderInv',e); }
+  // Always hide loading screen no matter what
+  setTimeout(()=>{
+    const ls=document.getElementById('ls');
+    if(ls){ls.classList.add('hide');setTimeout(()=>{if(ls.parentNode)ls.parentNode.removeChild(ls);},600);}
+  },1500);
+}
+init();
+</script>
+</body>
+</html>
